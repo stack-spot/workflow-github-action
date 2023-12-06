@@ -32,8 +32,8 @@ jobs:
 
       - name: Logs CLI
         if: failure()
-        run: sudo cat /home/runner/work/_temp/_github_home/.stk/logs/logs.log
+        run: sudo cat /home/runner/work/_temp/_github_home/.stk-dev/logs/logs.log
 
       - name: Debug Http
         if: "${{ inputs.debug == 'true' && always() }}"
-        run: sudo cat /home/runner/work/_temp/_github_home/.stk/debug/http.txt
+        run: sudo cat /home/runner/work/_temp/_github_home/.stk-dev/debug/http.txt

@@ -12,13 +12,13 @@ if [[ "$debug" == "true" ]]; then
   export HTTP_ENABLE_FILE_DEBUG=true
 fi
 
-secret_stk_login=$(curl --location --request POST "https://idm.stackspot.com/realms/$realm/protocol/openid-connect/token" \
+secret_stk_login=$(curl --location --request POST "https://account-keycloak.dev.stackspot.com/realms/$realm/protocol/openid-connect/token" \
     --header "Content-Type: application/x-www-form-urlencoded" \
     --data-urlencode "client_id=$client_id" \
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
-http_code=$(curl -s -o script.sh -w '%{http_code}' https://workflow-api.v1.stackspot.com/workflows/$execution_id --header "Authorization: Bearer $secret_stk_login";)
+http_code=$(curl -s -o script.sh -w '%{http_code}' https://workflow-workflow-api.dev.stackspot.com/workflows/$execution_id --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
     echo "------------------------------------------------------------------------------------------"
     echo "---------------------------------------- Debug Starting ----------------------------------"
