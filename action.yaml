@@ -1,0 +1,35 @@
+name: "StackSpot Workflow"
+description: 'StackSpot Workflow'
+author: "StackSpot"
+branding:
+  icon: "truck"
+  color: "purple"
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.execution-id }}
+    - ${{ inputs.client-id }}
+    - ${{ inputs.client-secret }}
+    - ${{ inputs.realm }}
+    - ${{ inputs.debug }}
+    - ${{ inputs.repository-url }}
+inputs:
+  execution-id:
+    description: "Execution ID"
+    required: true
+  client-id:
+    description: "Client ID StackSpot"
+    required: true
+  client-secret:
+    description: "Client Secret StackSpot"
+    required: true
+  realm:
+    description: "Realm StackSpot"
+    required: true
+  debug:
+    description: "Debug Execution"
+    required: true
+  repository-url:
+    description: "Repository URL to commit files"
+    required: false

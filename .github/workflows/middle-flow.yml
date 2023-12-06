@@ -1,0 +1,39 @@
+name: Use StackSpot Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      execution-id:
+        required: true
+      repository-url:
+        required: false
+      debug:
+        type: choice
+        options:
+          - true
+          - false
+
+jobs:
+  stackspot-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Stack Spot Workflow
+        uses: stack-spot/workflow-github-actionle-flow
+        with:
+          execution-id: "${{ github.event.inputs.execution-id }}"
+          client-id: "${{ secrets.CLIENT_ID }}"
+          client-secret: "${{ secrets.CLIENT_SECRET }}"
+          realm: "${{ secrets.REALM }}"
+          debug: "${{ github.event.inputs.debug }}"
+          repository-url: "${{ github.event.inputs.repository-url }}"
+
+      - name: Logs CLI
+        if: failure()
+        run: sudo cat /home/runner/work/_temp/_github_home/.stk/logs/logs.log
+
+      - name: Debug Http
+        if: "${{ inputs.debug == 'true' && always() }}"
+        run: sudo cat /home/runner/work/_temp/_github_home/.stk/debug/http.txt
