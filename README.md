@@ -6,7 +6,7 @@ This action execute StackSpot Workflow
 
 ```yaml
 - name: Stack Spot Workflow
-  uses: stack-spot/workflow-github-actionle-flow
+  uses: stack-spot/workflow-github-action
   with:
     execution-id: "${{ github.event.inputs.execution-id }}"
     client-id: "${{ secrets.CLIENT_ID }}"
