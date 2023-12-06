@@ -16,6 +16,7 @@ on:
 jobs:
   stackspot-workflow:
     runs-on: ubuntu-latest
+    environment: 'prd'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +27,7 @@ jobs:
           execution-id: "${{ github.event.inputs.execution-id }}"
           client-id: "${{ secrets.CLIENT_ID }}"
           client-secret: "${{ secrets.CLIENT_SECRET }}"
-          realm: "${{ secrets.REALM }}"
+          realm: "${{ vars.REALM }}"
           debug: "${{ github.event.inputs.debug }}"
           repository-url: "${{ github.event.inputs.repository-url }}"
 
