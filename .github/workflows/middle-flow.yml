@@ -16,7 +16,7 @@ on:
 jobs:
   stackspot-workflow:
     environment: 'prd'
-    runs-on: engineering-runners-prd
+    runs-on: ${{ vars.ACTION_RUNNER }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
