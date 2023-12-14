@@ -33,3 +33,11 @@ inputs:
   repository-url:
     description: "Repository URL to commit files"
     required: false
+  idm-base-url:
+    description: "StackSpot IDM base url"
+    required: false
+    default: "https://idm.stackspot.com"
+  workflow_api_base_url:
+    description: "Workflow API base url"
+    required: false
+    default: "https://workflow-api.v1.stackspot.com"
