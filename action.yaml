@@ -1,5 +1,5 @@
 name: "StackSpot Workflow"
-description: 'StackSpot Workflow'
+description: "StackSpot Workflow"
 author: "StackSpot"
 branding:
   icon: "truck"
@@ -14,6 +14,8 @@ runs:
     - ${{ inputs.realm }}
     - ${{ inputs.debug }}
     - ${{ inputs.repository-url }}
+    - ${{ inputs.idm-base-url }}
+    - ${{ inputs.workflow-api-base-url }}
 inputs:
   execution-id:
     description: "Execution ID"
@@ -37,7 +39,7 @@ inputs:
     description: "StackSpot IDM base url"
     required: false
     default: "https://idm.stackspot.com"
-  workflow_api_base_url:
+  workflow-api-base-url:
     description: "Workflow API base url"
     required: false
     default: "https://workflow-api.v1.stackspot.com"
