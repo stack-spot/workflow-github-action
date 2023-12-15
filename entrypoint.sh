@@ -20,6 +20,9 @@ secret_stk_login=$(curl --location --request POST "$idm_base_url/realms/$realm/p
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
+echo $secret_stk_login
+echo $workflow_api_base_url/workflows/$execution_id
+
 http_code=$(curl -s -o script.sh -w '%{http_code}' $workflow_api_base_url/workflows/$execution_id --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
     echo "------------------------------------------------------------------------------------------"
