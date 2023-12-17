@@ -9,6 +9,9 @@ repo_url=$6
 idm_base_url=$7
 workflow_api_base_url=$8
 
+export client_id=$client_id
+export client_secret=$client_secret
+
 if [[ "$debug" == "true" ]]; then
   echo "Debug Enabled"
   export HTTP_ENABLE_FILE_DEBUG=true
