@@ -1,15 +1,15 @@
 #!/bin/bash -l
 
-execution_id=$1
-client_id=$2
-client_secret=$3
-realm=$4
-debug=$5
-repo_url=$6
-idm_base_url=$7
-workflow_api_base_url=$8
-origin_branch=$9
-feature_branch=$10
+execution_id=${1}
+client_id=${2}
+client_secret=${3}
+realm=${4}
+debug=${5}
+repo_url=${6}
+idm_base_url=${7}
+workflow_api_base_url=${8}
+origin_branch=${9}
+feature_branch=${10}
 
 export client_id=$client_id
 export client_secret=$client_secret
