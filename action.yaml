@@ -31,8 +31,16 @@ inputs:
     description: "Workflow API base url"
     required: false
     default: "https://workflow-api.v1.stackspot.com"
+  origin-branch:
+    description: "Branch used as origin to create the app/infra"
+    required: false
+    default: ""
+  feature-branch:
+    description: "Feature branch to be created for PR to origin-branch"
+    required: false
+    default: ""        
 runs:
   using: "composite"
   steps:
     - shell: bash
-      run: bash ./entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }}
+      run: bash ./entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }}
