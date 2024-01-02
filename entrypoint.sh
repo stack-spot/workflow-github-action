@@ -1,13 +1,15 @@
 #!/bin/bash -l
 
-execution_id=$1
-client_id=$2
-client_secret=$3
-realm=$4
-debug=$5
-repo_url=$6
-idm_base_url=$7
-workflow_api_base_url=$8
+execution_id=${1}
+client_id=${2}
+client_secret=${3}
+realm=${4}
+debug=${5}
+repo_url=${6}
+idm_base_url=${7}
+workflow_api_base_url=${8}
+origin_branch=${9}
+feature_branch=${10}
 
 export client_id=$client_id
 export client_secret=$client_secret
@@ -23,7 +25,17 @@ secret_stk_login=$(curl --location --request POST "$idm_base_url/realms/$realm/p
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
-http_code=$(curl -s -o script.sh -w '%{http_code}' "$workflow_api_base_url/workflows/$execution_id?loginType=CLIENT_ACCESS" --header "Authorization: Bearer $secret_stk_login";)
+url="$workflow_api_base_url/workflows/$execution_id?loginType=CLIENT_ACCESS"
+
+if [[ "$origin_branch" != "" ]]; then
+    url="$url&originBranch=$origin_branch"
+fi
+
+if [[ "$feature_branch" != "" ]]; then
+    url="$url&featureBranch=$feature_branch"
+fi
+
+http_code=$(curl -s -o script.sh -w '%{http_code}' "$url"  --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
     echo "------------------------------------------------------------------------------------------"
     echo "---------------------------------------- Debug Starting ----------------------------------"
