@@ -14,16 +14,19 @@ feature_branch=${10}
 export client_id=$client_id
 export client_secret=$client_secret
 
-if [[ "$debug" == "true" ]]; then
-  echo "Debug Enabled"
-  export HTTP_ENABLE_FILE_DEBUG=true
-fi
-
 secret_stk_login=$(curl --location --request POST "$idm_base_url/realms/$realm/protocol/openid-connect/token" \
     --header "Content-Type: application/x-www-form-urlencoded" \
     --data-urlencode "client_id=$client_id" \
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
+
+put_workflow_url="$workflow_api_base_url/workflows/$execution_id"
+http_code=$(curl -s -o output.json -w '%{http_code}' "$put_workflow_url" --header "Authorization: Bearer $secret_stk_login" --data "{\"extra_inputs\": $extra_inputs}";)
+if [[ "$http_code" -ne "200" ]]; then
+    echo "HTTP_CODE:" $http_code
+    echo "RESPONSE_CONTENT:" $(cat output.json)
+    exit $http_code
+fi
 
 url="$workflow_api_base_url/workflows/$execution_id?loginType=CLIENT_ACCESS"
 
@@ -37,16 +40,10 @@ fi
 
 http_code=$(curl -s -o script.sh -w '%{http_code}' "$url"  --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
-    echo "------------------------------------------------------------------------------------------"
-    echo "---------------------------------------- Debug Starting ----------------------------------"
-    echo "------------------------------------------------------------------------------------------"
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:"
     cat script.sh
     exit $http_code
-    echo "------------------------------------------------------------------------------------------"
-    echo "---------------------------------------- Debug Ending ------------------------------------"
-    echo "------------------------------------------------------------------------------------------"
 else
     echo "HTTP_CODE:" $http_code
     chmod +x script.sh
@@ -59,5 +56,9 @@ else
     echo "------------------------------------------------------------------------------------------"
     echo "----------------------------------------  Ending  ----------------------------------------"
     echo "------------------------------------------------------------------------------------------"
+    if [[ "$debug" == "true" ]]; then
+        cat ~/.stk/logs/logs.log
+        cat ~/.stk/debug/http.txt
+    fi
     exit $result
 fi

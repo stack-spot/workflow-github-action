@@ -39,6 +39,10 @@ inputs:
     description: "Feature branch to be created for PR to origin-branch"
     required: false
     default: ""        
+  extra-inputs:
+    description: "Inputs to be added in all actions and plugins"
+    required: false
+    default: "{}"
 runs:
   using: "composite"
   steps:
@@ -47,5 +51,5 @@ runs:
         export LANGUAGE=C.UTF-8
         export LC_ALL=C.UTF-8
         export PYTHONIOENCODING=utf-8 
-        ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }}
+        ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }} ${{ inputs.extra-inputs }}
       shell: bash
