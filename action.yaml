@@ -46,5 +46,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }} $(echo -n "${{ inputs.extra-inputs }}" | base64)
+    - run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }} $(echo "${{ inputs.extra-inputs }}" | base64)
       shell: bash
