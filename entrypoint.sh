@@ -10,6 +10,7 @@ idm_base_url=${7}
 workflow_api_base_url=${8}
 origin_branch=${9}
 feature_branch=${10}
+extra_inputs=${11}
 
 export client_id=$client_id
 export client_secret=$client_secret
@@ -38,7 +39,7 @@ if [[ "$feature_branch" != "" ]]; then
     url="$url&featureBranch=$feature_branch"
 fi
 
-http_code=$(curl -s -o script.sh -w '%{http_code}' "$url"  --header "Authorization: Bearer $secret_stk_login";)
+http_code=$(curl --request PUT -s -o script.sh -w '%{http_code}' "$url"  --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:"
