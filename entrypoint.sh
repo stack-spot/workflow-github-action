@@ -22,9 +22,11 @@ secret_stk_login=$(curl --location --request POST "$idm_base_url/realms/$realm/p
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
 put_workflow_url="$workflow_api_base_url/workflows/$execution_id"
-http_code=$(curl --request PUT -s -o output.json -w '%{http_code}' "$put_workflow_url" --header "Authorization: Bearer $secret_stk_login" --data "{\"extra_inputs\": $extra_inputs}";)
+put_workflow_json="{\"extra_inputs\": $extra_inputs}"
+http_code=$(curl --request PUT -s -o output.json -w '%{http_code}' "$put_workflow_url" --header "Authorization: Bearer $secret_stk_login" --data $put_workflow_json;)
 if [[ "$http_code" -ne "200" ]]; then
     echo $put_workflow_url
+    echo $put_workflow_json
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:" $(cat output.json)
     exit $http_code
