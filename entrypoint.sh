@@ -15,7 +15,7 @@ extra_inputs=${11}
 export client_id=$client_id
 export client_secret=$client_secret
 
-secret_stk_login=$(curl --location --request POST "$idm_base_url/realms/$realm/protocol/openid-connect/token" \
+secret_stk_login=$(curl -s --location --request POST "$idm_base_url/realms/$realm/protocol/openid-connect/token" \
     --header "Content-Type: application/x-www-form-urlencoded" \
     --data-urlencode "client_id=$client_id" \
     --data-urlencode "grant_type=client_credentials" \
