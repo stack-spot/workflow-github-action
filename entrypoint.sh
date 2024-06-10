@@ -56,7 +56,6 @@ else
     bash script.sh
     result=$?
     if [[ "$debug" == "true" ]]; then
-        cat ~/.stk/logs/logs.log
         cat ~/.stk/debug/http.txt
     fi
     echo "------------------------------------------------------------------------------------------"
