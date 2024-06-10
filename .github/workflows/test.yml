@@ -1,4 +1,4 @@
-name: Use StackSpot Workflow
+name: Test StackSpot Workflow action
 
 on:
   workflow_dispatch:
@@ -15,7 +15,6 @@ on:
 
 jobs:
   stackspot-workflow:
-    environment: 'prd'
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -30,11 +29,6 @@ jobs:
           realm: "${{ vars.REALM }}"
           debug: "${{ github.event.inputs.debug }}"
           repository-url: "${{ github.event.inputs.repository-url }}"
-
-      - name: Logs CLI
-        if: failure()
-        run: sudo cat /home/runner/work/_temp/_github_home/.stk/logs/logs.log
-
-      - name: Debug Http
-        if: "${{ inputs.debug == 'true' && always() }}"
-        run: sudo cat /home/runner/work/_temp/_github_home/.stk/debug/http.txt
+          origin-branch: develop
+          feature-branch: my-custom-feature-branch-${{ env.TIMESTAMP }}
+          extra-inputs: '{"teste": "teste"}'
