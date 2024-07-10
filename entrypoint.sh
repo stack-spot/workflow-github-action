@@ -21,8 +21,6 @@ secret_stk_login=$(curl -s --location --request POST "$idm_base_url/realms/$real
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
-echo "$idm_base_url/realms/$realm/protocol/openid-connect/token"
-
 put_workflow_url="$workflow_api_base_url/workflows/$execution_id"
 
 decoded_extra_inputs=$(echo $extra_inputs | base64 -d)
