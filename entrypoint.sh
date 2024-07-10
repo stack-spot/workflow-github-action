@@ -21,7 +21,10 @@ secret_stk_login=$(curl -s --location --request POST "$idm_base_url/realms/$real
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
 
+echo "$idm_base_url/realms/$realm/protocol/openid-connect/token"
+
 put_workflow_url="$workflow_api_base_url/workflows/$execution_id"
+
 decoded_extra_inputs=$(echo $extra_inputs | base64 -d)
 put_workflow_json="{\"extra_inputs\": $decoded_extra_inputs}"
 http_code=$(curl --request PUT -s -o output.json -w '%{http_code}' "$put_workflow_url" --header "Authorization: Bearer $secret_stk_login" --header 'Content-Type: application/json' --data "$put_workflow_json";)
@@ -46,7 +49,7 @@ if [[ "$http_code" -ne "200" ]]; then
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:"
     cat script.sh
-    exit $http_code
+    exit 1
 else
     chmod +x script.sh
     echo "------------------------------------------------------------------------------------------"
