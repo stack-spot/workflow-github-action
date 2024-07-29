@@ -38,7 +38,8 @@ inputs:
   feature-branch:
     description: "Feature branch to be created for PR to origin-branch"
     required: false
-    default: ""        
+    default: ""     
+secrets:   
   extra-inputs:
     description: "Inputs to be added in all actions and plugins"
     required: false
@@ -47,7 +48,6 @@ runs:
   using: "composite"
   steps:
     - run: |
-        set +x
         echo '{"extra_inputs": ${{ inputs.extra-inputs }} }' > extra-inputs.json
         ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }} $(base64 extra-inputs.json -w0)
       shell: bash
