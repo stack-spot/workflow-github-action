@@ -51,4 +51,4 @@ runs:
         ${{ github.action_path }}/entrypoint.sh ${{ inputs.execution-id }} ${{ inputs.client-id }} ${{ inputs.client-secret }} ${{ inputs.realm }} ${{ inputs.debug }} ${{ inputs.repository-url }} ${{ inputs.idm-base-url }} ${{ inputs.workflow-api-base-url }} ${{ inputs.origin-branch }} ${{ inputs.feature-branch }} $(base64 extra-inputs.json -w0)
       shell: bash
       env:
-        EXTRA-INPUTS: ${{ secrets.extra-inputs }}
+        EXTRA-INPUTS: ${{ inputs.extra-inputs }}
