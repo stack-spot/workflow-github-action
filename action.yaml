@@ -39,7 +39,6 @@ inputs:
     description: "Feature branch to be created for PR to origin-branch"
     required: false
     default: ""     
-secrets:   
   extra-inputs:
     description: "Inputs to be added in all actions and plugins"
     required: false
