@@ -53,7 +53,7 @@ else
     echo "------------------------------------------------------------------------------------------"
     echo "---------------------------------------- Starting ----------------------------------------"
     echo "------------------------------------------------------------------------------------------"
-    echo "{\"outputs\": {\"created_repository\": \"$repo_url\"}}" > stk-local-context.json
+    echo "{\"outputs\": {\"created_repository\": \"$repo_url\"}, \"connectors\": []}" > stk-local-context.json
     bash script.sh
     result=$?
     if [[ "$debug" == "true" ]]; then
