@@ -15,11 +15,18 @@ extra_inputs=${11}
 export client_id=$client_id
 export client_secret=$client_secret
 
-secret_stk_login=$(curl -s --location --request POST "$idm_base_url/realms/$realm/protocol/openid-connect/token" \
+secret_stk_login=$(curl -s --location --request -w '%{http_code}' POST "$idm_base_url/realms/$realm/protocol/openid-connect/token" \
     --header "Content-Type: application/x-www-form-urlencoded" \
     --data-urlencode "client_id=$client_id" \
     --data-urlencode "grant_type=client_credentials" \
     --data-urlencode "client_secret=$client_secret" | jq -r .access_token)
+
+if [[ "$http_code" -ne "200" ]]; then
+    echo "OOPS! Something is wrong with stackspot auth"
+    echo "HTTP_CODE:" $http_code
+    echo "RESPONSE_CONTENT:" $(cat output.json)
+    exit 1
+fi
 
 put_workflow_url="$workflow_api_base_url/workflows/$execution_id"
 
@@ -27,9 +34,10 @@ decoded_extra_inputs=$(echo $extra_inputs | base64 -d)
 export inputs_json="$(echo $extra_inputs | base64 -d | jq -r '.["extra_inputs"]')"
 http_code=$(curl --request PUT -s -o output.json -w '%{http_code}' "$put_workflow_url" --header "Authorization: Bearer $secret_stk_login" --header 'Content-Type: application/json' --data "$(echo $extra_inputs | base64 -d)";)
 if [[ "$http_code" -ne "200" ]]; then
+    echo "OOPS! Something is wrong with stackspot workflow api put information"
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:" $(cat output.json)
-    exit $http_code
+    exit 1
 fi
 
 url="$workflow_api_base_url/workflows/$execution_id?loginType=CLIENT_ACCESS"
@@ -44,6 +52,7 @@ fi
 
 http_code=$(curl -s -o script.sh -w '%{http_code}' "$url"  --header "Authorization: Bearer $secret_stk_login";)
 if [[ "$http_code" -ne "200" ]]; then
+    echo "OOPS! Something is wrong with stackspot workflow api script"
     echo "HTTP_CODE:" $http_code
     echo "RESPONSE_CONTENT:"
     cat script.sh
